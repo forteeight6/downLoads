@@ -1,3 +1,4 @@
+import re
 # !pip install pytube
 """
     O pytube cria o diretorio para você. Exemplo:
@@ -41,12 +42,16 @@ def downloadVideoFromYoutube(*args) -> None:
     """
 
     youtube = YouTube(args[0])
+    title = re.sub(r"[/:,.´]"," ", youtube.title)
+    print('Estou tentando baixar o seguinte video:\n', title)
     stream = youtube.streams.get_highest_resolution()
-    stream.download(output_path=args[1])
+    
+    stream.download(output_path=args[1], filename=title+".mp4")
     print('Download completed successfully!')
     return None
 
 if __name__ == "__main__":
-    url = "www.youtube.com/watch?v=IfebGReO4FY"
+    
+    url = "https://www.youtube.com/watch?v=0Ia_hnQoGmg"
     location = "./"
     downloadVideoFromYoutube(url, location)
